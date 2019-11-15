@@ -1,0 +1,64 @@
+
+tport_type_tls.c 368-373
+int tport_tls_events(tport_t *self, int events)
+{
+  tport_tls_t *tlstp = (tport_tls_t *)self;
+  int old_mask = tls_events(tlstp->tlstp_context, self->tp_events), mask;
+  int ret, error = 0;
+
+  if (events & SU_WAIT_ERR)
+    error = tport_error_event(self);
+
+  if ((self->tp_events & SU_WAIT_OUT) && !self->tp_closed) {
+    ret = tls_want_write(tlstp->tlstp_context, events);
+    if (ret > 0)
+      tport_send_event(self);
+    else if (ret < 0)
+      tport_error_report(self, errno, NULL);
+  }
+
+  if ((self->tp_events & SU_WAIT_IN) && !self->tp_closed) {
+    for (;;) {
+      ret = tls_want_read(tlstp->tlstp_context, events);
+	  //tls socket非阻塞方式下,read 数据时对EAGAIN特殊处理，交给poll处理  start
+	  if(ret == 3)
+	  {
+	  	SU_DEBUG_7(("tls error eagain repair, ret = [%d] errno = [%d]\n", ret, errno));
+	  	return 0;
+	  }
+	  //end
+
+
+tport_tls.c  798-805
+ssize_t tls_read(tls_t *tls)
+{
+  ssize_t ret;
+
+  if (tls == NULL) {
+    errno = EINVAL;
+    return -1;
+  }
+
+  if (0)
+    SU_DEBUG_1(("tls_read(%p) called on %s (events %u)\n", (void *)tls,
+	    tls->type ? "master" : "slave",
+	    tls->read_events));
+
+  if (tls->read_buffer_len)
+    return (ssize_t)tls->read_buffer_len;
+
+  tls->read_events = SU_WAIT_IN;
+
+  ret = SSL_read(tls->con, tls->read_buffer, tls_buffer_size);
+  if (ret <= 0)
+  {
+  	//tls socket非阻塞方式下,read 数据时对EAGAIN特殊处理，交给poll处理  start
+  	if (ret == -1 && errno == EAGAIN)
+  	{
+  		return ret;
+  	}
+    return tls_error(tls, ret, "tls_read: SSL_read", NULL, 0);
+  }
+	//end	
+  return (ssize_t)(tls->read_buffer_len = ret);
+}
