@@ -1,0 +1,3 @@
+Q: ip command not found
+
+A: yum  -y install initscripts
