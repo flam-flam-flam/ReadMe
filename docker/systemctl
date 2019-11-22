@@ -1,0 +1,1 @@
+docker run -dit --privileged --name=centos_test centos:7 /usr/sbin/init
