@@ -1,1 +1,1 @@
-set encoding=utf-8
+set encoding=utf-8 #（可以在/etc/vimrc中添加）
