@@ -1,0 +1,27 @@
+1、宿主机必须安装ipvsadm
+yum install ipvsadm -y
+2、宿主机内核必须加载ip_vs和ip_vs_wrr两个模块
+  1）动态加载 
+  modprobe ip_vs ; modprobe ip_vs_wrr
+  2）动态卸载
+  modprobe -r ip_vs; modprobe -r ip_vs_wrr
+  3) 查看内核模块
+  lsmod |grep ip_vs
+  4）开机自动加载：
+  vim /etc/sysconfig/modules/ip_vs.modules
+  
+  #! /bin/sh
+  
+  /sbin/modinfo -F filename ip_vs > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    /sbin/modprobe ip_vs
+  fi
+  
+  
+  chmod +x /etc/sysconfig/modules/xxx.modules
+  
+3、容器安装keepalived
+  
+  yum install keepalived -y
+  
+  systemctl start keepalived
