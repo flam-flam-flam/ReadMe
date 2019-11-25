@@ -1,0 +1,21 @@
+拒绝所有包： firewall-cmd --panic-on
+取消拒绝所有包： firewall-cmd --panic-off
+查看是否拒绝： firewall-cmd --query-panic
+
+
+查看所有规则： firewall-cmd --list-all
+查看所有打开的端口： firewall-cmd --zone=public --list-ports
+
+添加端口： firewall-cmd --add-port=5060/tcp --permanent
+删除端口： firewall-cmd --remove-port=5060/tcp --permanent
+查看端口： firewall-cmd --zone=public --query-port=5060/tcp
+
+重载规则: firewall-cmd --reload
+
+开启防火墙伪装: firewall-cmd --add-masquerade --permanent
+添加转发规则： firewall-cmd --add-forward-port=port=5060:proto=tcp:toport=5060:toaddr=172.17.0.2 --permanent
+
+重载规则：firewall-cmd --reload
+
+keepalived的VIP问题
+firewall-cmd --direct --permanent --add-rule ipv4 filter INPUT 0 --in-interface eth0 --destionation 224.0.0.18 --protocol vrrp -j ACCEPT
