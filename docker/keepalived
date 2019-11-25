@@ -1,5 +1,6 @@
 1、宿主机必须安装ipvsadm
 yum install ipvsadm -y
+ipvsadm --save > /etc/sysconfig/ipvsadm
 2、宿主机内核必须加载ip_vs和ip_vs_wrr两个模块
   1）动态加载 
   modprobe ip_vs ; modprobe ip_vs_wrr
