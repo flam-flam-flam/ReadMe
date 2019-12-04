@@ -1,3 +1,21 @@
 vi /etc/resolv.conf
 nameserver 8.8.8.8
 nameserver 8.8.4.4
+nameserver 119.29.29.29
+
+一、当我们要run起来镜像的时候
+
+       当我们希望我们run起来镜像的时候，/ect/resolv.conf文件中可以自动加载上我们希望的DNS，我们可以加上--dns=xx.xx.xx.xx来启动镜像
+
+docker run --dns=xx.xx.xx.xx images
+二、当我们在build docker镜像的时候
+       当我们在build镜像的时候，发现并没有--dns这个参数，那我们该怎么设置DNS呢？我们可以通过修改/etc/docker/daemon.json文件来实现
+
+vim /etc/docker/daemon.json
+
+加入
+{
+    "dns":[xx.xx.xx.xx]
+}
+
+systemctl daemon-reload
