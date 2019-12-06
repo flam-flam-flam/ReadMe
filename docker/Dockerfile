@@ -28,3 +28,6 @@ RUN systemctl enable firewalld
 
 RUN systemctl enable keepalived
 #RUN systemctl start keepalived
+
+RUN echo 'net.ipv4.ip_nonlocal_bind=1' >> /etc/sysctl.conf #Allow FreeSWITCH to bind to nonlocal IP
+RUN sysctl -p
