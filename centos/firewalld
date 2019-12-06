@@ -18,4 +18,4 @@
 重载规则：firewall-cmd --reload
 
 keepalived的VIP问题
-firewall-cmd --direct --permanent --add-rule ipv4 filter INPUT 0 --in-interface eth0 --destionation 224.0.0.18 --protocol vrrp -j ACCEPT
+firewall-cmd --direct --permanent --add-rule ipv4 filter INPUT 0 --in-interface eth0 --destination 224.0.0.18 --protocol vrrp -j ACCEPT
