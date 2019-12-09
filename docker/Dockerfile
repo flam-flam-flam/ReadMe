@@ -32,3 +32,5 @@ RUN systemctl enable keepalived
 RUN echo 'net.ipv4.ip_nonlocal_bind=1' >> /etc/sysctl.conf #Allow FreeSWITCH to bind to nonlocal IP ,就不需要firewalld了
 RUN sysctl -p
 #https://blog.51cto.com/908405/2176392
+
+#ifconfig eth0:0 192.168.1.101 up
