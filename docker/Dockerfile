@@ -33,4 +33,4 @@ RUN echo 'net.ipv4.ip_nonlocal_bind=1' >> /etc/sysctl.conf #Allow FreeSWITCH to 
 RUN sysctl -p
 #https://blog.51cto.com/908405/2176392
 
-#ifconfig eth0:0 192.168.1.101 up
+#ifconfig eth0:0 192.168.1.101 up #alias
