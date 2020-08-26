@@ -1,1 +1,1 @@
-
+1、狭义的servlet是指java语言实现的一个接口，广义的servlet是指任何实现了这个servlet接口的类，一般情况下，人们将servlet理解为后者，servlet运行于支持java的应用服务器中。
